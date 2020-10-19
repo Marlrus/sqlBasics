@@ -164,3 +164,36 @@ Here the SUBSTR function takes the column as the first argument, then the charac
 
 ## JOINS
 
+There are variations of joins that can be expressed as ven diagrams:
+
+Command     | Description | ALIAS
+-------- | ----- | -----
+JOIN | Returns records that have matching values. | INNER
+LEFT JOIN | Returns all records from left table and matching from right. | OUTER
+RIGHT JOIN | Returns all records from right table and matching from left. | OUTER
+RIGHT JOIN | Returns all records from right table and matching from left. | OUTER
+FULL JOIN | Returns all records from both tables and show where they connect. | OUTER
+
+### Creating a Database
+
+We are using a package called **sqlalchemy** to create a new table **offence**. Then we insert records to that table that have a single offence code and a name. Then we will use this new table to do an inner join:
+
+```SQL
+SELECT A.* 
+FROM crime A INNER JOIN offence B ON A.OFFENSE_CODE = B.OFFENSE_CODE
+```
+This is a tricky join operation because we are selecting using an alias before we create that alias. So what we say here is that we are selecting all the data from a table which we will call A (all the data because of the *). Then we select crime and change the name to A implicitly, and create an inner JOIN with B which we alias as B and use the OFFENCE_CODE column to find the matching values. It is also notable that we can safely ommit the INNER portion of the query and it would still be the same. We can also replace the * in the query to select specific columns of the table. 
+
+```SQL
+SELECT COUNT(*) 
+FROM crime A INNER JOIN offence B ON A.OFFENSE_CODE = B.OFFENSE_CODE
+```
+Here we are getting the number of records that have matching offense codes on both tables.
+
+```SQL
+SELECT COUNT(*) 
+FROM crime A LEFT JOIN offence B ON A.OFFENSE_CODE = B.OFFENSE_CODE
+```
+Here we are getting all the data from table A along with information from table B, this means that we get a table that has the same size as table A and no new information because table B has no new data. If we were to add a new column from table B with data that is unique to it, we would see that data wherever the data from table B was used, and null in all values from A in that column because it does not exist. 
+
+This was the end of the SQL basics from the DS4A course. 
